@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import re
-from os import sep as path_sep
 from dataclasses import dataclass, field
+from os import sep as path_sep
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar
 
@@ -393,7 +393,7 @@ class GoHandler(BaseHandler):
         return [file for file in files if file.is_file() and not file.name.endswith("_test.go")]
 
     def collect(self, identifier: str, options: GoOptions) -> CollectorItem:
-        if options == {}:
+        if not options:
             raise CollectionError("Not loading additional files during fallback")
 
         chosen_path = None

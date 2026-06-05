@@ -39,7 +39,7 @@ try:
     from pydantic import Field as BaseField
     from pydantic.dataclasses import dataclass
 
-    _base_url = "https://mkdocstrings.github.io/c/usage"
+    _base_url = "https://mkdocstrings.github.io/go/usage"
 
     def _Field(  # noqa: N802
         *args: Any,

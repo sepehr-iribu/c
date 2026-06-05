@@ -3,13 +3,17 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from typing import TYPE_CHECKING
 
 import griffe
 
 from mkdocstrings_handlers import go
 
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
-def _yield_public_objects(obj: griffe.Module | griffe.Class):
+
+def _yield_public_objects(obj: griffe.Module | griffe.Class) -> Iterator[griffe.Object | griffe.Alias]:
     for member in obj.members.values():
         try:
             if member.is_module:
@@ -31,7 +35,9 @@ def test_exposed_objects() -> None:
     internal_api = loader.modules_collection["mkdocstrings_handlers.go._internal"]
 
     modulelevel_internal_objects = list(_yield_public_objects(internal_api))
-    not_exposed = [obj.path for obj in modulelevel_internal_objects if obj.name not in go.__all__ or not hasattr(go, obj.name)]
+    not_exposed = [
+        obj.path for obj in modulelevel_internal_objects if obj.name not in go.__all__ or not hasattr(go, obj.name)
+    ]
     assert not not_exposed, "Objects not exposed:\n" + "\n".join(sorted(not_exposed))
 
 

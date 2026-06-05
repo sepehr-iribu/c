@@ -21,7 +21,7 @@ try:
     import pydantic
 
     if getattr(pydantic, "__version__", "1.").startswith("1."):
-        raise ImportError
+        raise ImportError  # noqa: TRY301
 
     if sys.version_info < (3, 10):
         try:

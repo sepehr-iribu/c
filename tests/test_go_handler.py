@@ -3,14 +3,19 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 
 from mkdocstrings_handlers.go import GoPackageDoc, parse_go_source
 
+if TYPE_CHECKING:
+    from markdown import Markdown
+    from mkdocstrings import MkdocstringsPlugin
+
 
 def test_parse_go_source_extracts_symbols() -> None:
-    source = '''
+    source = """
 package hello
 
 // Version is exported.
@@ -39,7 +44,7 @@ func NewPerson(name string, age int) Person {
 func (p *Person) Title(prefix string) string {
     return prefix + p.Name
 }
-'''
+"""
     parsed = parse_go_source(source, package_path=".", filename="hello.go")
 
     assert parsed.package == "hello"
@@ -56,7 +61,7 @@ func (p *Person) Title(prefix string) string {
     [{"theme": {"name": "material"}, "plugins": [{"mkdocstrings": {"default_handler": "go"}}]}],
     indirect=["plugin"],
 )
-def test_collect_and_render_go(plugin, ext_markdown) -> None:  # type: ignore[no-untyped-def]
+def test_collect_and_render_go(plugin: MkdocstringsPlugin, ext_markdown: Markdown) -> None:
     handler = plugin.handlers.get_handler("go")
     handler._update_env(ext_markdown, config=plugin.handlers._tool_config)
     options = handler.get_options({})

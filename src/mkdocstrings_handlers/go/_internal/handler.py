@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Mapping, MutableMapping
+from os import sep as path_sep
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, ClassVar
@@ -14,6 +14,8 @@ from mkdocstrings import BaseHandler, CollectionError, CollectorItem
 from mkdocstrings_handlers.go._internal.config import GoOptions
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping, MutableMapping
+
     from mkdocs.config.defaults import MkDocsConfig
 
 
@@ -22,7 +24,7 @@ _PACKAGE = re.compile(r"^\s*package\s+([A-Za-z_]\w*)\s*$")
 _FUNC = re.compile(
     r"^func\s*(?:\((?P<receiver>[^)]+)\)\s*)?(?P<name>[A-Za-z_]\w*)(?P<tparams>\[[^]]+\])?\s*\((?P<params>[^)]*)\)\s*(?P<results>.*)$",
 )
-_TYPE = re.compile(r"^type\s+(?P<name>[A-Za-z_]\w*)(?P<tparams>\[[^]]+\])?\s+(?P<body>.+)$")
+_TYPE = re.compile(r"^type\s+(?P<name>[A-Za-z_]\w*)(?P<tparams>\[[^]]+\])?\s+(?P<body>.+)$", re.DOTALL)
 _DECL = re.compile(r"^(?P<kind>const|var)\s+(?P<body>.+)$")
 
 
@@ -193,7 +195,7 @@ def _parse_param_group(group: str) -> list[GoParam]:
 
 
 def _parse_func(signature: str, doc: GoDoc | None) -> GoFunction | None:
-    signature = signature.rstrip("{").strip()
+    signature = signature.split("{", 1)[0].strip()
     match = _FUNC.match(signature)
     if not match:
         return None
@@ -380,10 +382,10 @@ class GoHandler(BaseHandler):
             return [candidate]
 
         direct = self.base_dir / identifier
-        module_style = self.base_dir / identifier.replace("/", str(Path.sep))
+        module_style = self.base_dir / identifier.replace("/", path_sep)
         return [direct, module_style]
 
-    def _go_files(self, path: Path, recursive: bool, include_tests: bool) -> list[Path]:
+    def _go_files(self, path: Path, *, recursive: bool, include_tests: bool) -> list[Path]:
         globber = path.rglob if recursive else path.glob
         files = sorted(globber("*.go"))
         if include_tests:
@@ -414,7 +416,7 @@ class GoHandler(BaseHandler):
                 include_private=options.include_private,
             )
 
-        files = self._go_files(chosen_path, options.recursive, options.include_tests)
+        files = self._go_files(chosen_path, recursive=options.recursive, include_tests=options.include_tests)
         if not files:
             raise CollectionError(f"No Go files found under: {chosen_path}")
 
@@ -429,7 +431,7 @@ class GoHandler(BaseHandler):
         ]
         return merge_package_docs(docs, str(chosen_path))
 
-    def render(self, data: GoPackageDoc, options: GoOptions) -> str:
+    def render(self, data: GoPackageDoc, options: GoOptions, *, locale: str | None = None) -> str:  # noqa: ARG002
         heading_level = options.heading_level
         template = self.env.get_template("header.html.jinja")
         return template.render(config=options, header=data, heading_level=heading_level, root=True)

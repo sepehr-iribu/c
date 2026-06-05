@@ -1,0 +1,37 @@
+:root,
+[data-md-color-scheme="default"] {
+  --doc-symbol-go-package-fg-color: #0550ae;
+  --doc-symbol-go-struct-fg-color: #8250df;
+  --doc-symbol-go-interface-fg-color: #5cad0f;
+  --doc-symbol-go-function-fg-color: #953800;
+  --doc-symbol-go-method-fg-color: #1f883d;
+  --doc-symbol-go-var-fg-color: #9a6700;
+  --doc-symbol-go-const-fg-color: #bf3989;
+  --doc-symbol-go-type-fg-color: #0550ae;
+
+  --doc-symbol-go-package-bg-color: #0550ae1a;
+  --doc-symbol-go-struct-bg-color: #8250df1a;
+  --doc-symbol-go-interface-bg-color: #5cad0f1a;
+  --doc-symbol-go-function-bg-color: #9538001a;
+  --doc-symbol-go-method-bg-color: #1f883d1a;
+  --doc-symbol-go-var-bg-color: #9a67001a;
+  --doc-symbol-go-const-bg-color: #bf39891a;
+  --doc-symbol-go-type-bg-color: #0550ae1a;
+}
+
+code.doc-symbol-go-package { color: var(--doc-symbol-go-package-fg-color); background-color: var(--doc-symbol-go-package-bg-color); }
+code.doc-symbol-go-package::after { content: "pkg"; }
+code.doc-symbol-go-struct { color: var(--doc-symbol-go-struct-fg-color); background-color: var(--doc-symbol-go-struct-bg-color); }
+code.doc-symbol-go-struct::after { content: "struct"; }
+code.doc-symbol-go-interface { color: var(--doc-symbol-go-interface-fg-color); background-color: var(--doc-symbol-go-interface-bg-color); }
+code.doc-symbol-go-interface::after { content: "iface"; }
+code.doc-symbol-go-function { color: var(--doc-symbol-go-function-fg-color); background-color: var(--doc-symbol-go-function-bg-color); }
+code.doc-symbol-go-function::after { content: "func"; }
+code.doc-symbol-go-method { color: var(--doc-symbol-go-method-fg-color); background-color: var(--doc-symbol-go-method-bg-color); }
+code.doc-symbol-go-method::after { content: "meth"; }
+code.doc-symbol-go-var { color: var(--doc-symbol-go-var-fg-color); background-color: var(--doc-symbol-go-var-bg-color); }
+code.doc-symbol-go-var::after { content: "var"; }
+code.doc-symbol-go-const { color: var(--doc-symbol-go-const-fg-color); background-color: var(--doc-symbol-go-const-bg-color); }
+code.doc-symbol-go-const::after { content: "const"; }
+code.doc-symbol-go-type { color: var(--doc-symbol-go-type-fg-color); background-color: var(--doc-symbol-go-type-bg-color); }
+code.doc-symbol-go-type::after { content: "type"; }

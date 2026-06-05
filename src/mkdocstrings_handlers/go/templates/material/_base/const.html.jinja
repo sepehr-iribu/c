@@ -1,0 +1,11 @@
+{% filter heading(
+    heading_level + 1,
+    id='const-' ~ value.name,
+    class="doc doc-heading",
+    toc_label=('<code class="doc-symbol doc-symbol-toc doc-symbol-go-const"></code>&nbsp;'|safe if config.show_symbol_type_toc else '') + value.name,
+) %}
+    {% if config.show_symbol_type_heading %}<code class="doc-symbol doc-symbol-heading doc-symbol-go-const"></code>{% endif %}
+    <code>{{ value.name }}</code>
+{% endfilter %}
+<p><code>const {{ value.name }}{% if value.tp %} {{ value.tp }}{% endif %}{% if value.value %} = {{ value.value }}{% endif %}</code></p>
+{{ value.doc.desc | default("No description provided.") | convert_markdown(value.name) }}

@@ -1,0 +1,11 @@
+{% filter heading(
+    heading_level + 1,
+    id='var-' ~ value.name,
+    class="doc doc-heading",
+    toc_label=('<code class="doc-symbol doc-symbol-toc doc-symbol-go-var"></code>&nbsp;'|safe if config.show_symbol_type_toc else '') + value.name,
+) %}
+    {% if config.show_symbol_type_heading %}<code class="doc-symbol doc-symbol-heading doc-symbol-go-var"></code>{% endif %}
+    <code>{{ value.name }}</code>
+{% endfilter %}
+<p><code>var {{ value.name }}{% if value.tp %} {{ value.tp }}{% endif %}{% if value.value %} = {{ value.value }}{% endif %}</code></p>
+{{ value.doc.desc | default("No description provided.") | convert_markdown(value.name) }}

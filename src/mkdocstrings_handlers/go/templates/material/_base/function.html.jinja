@@ -1,0 +1,11 @@
+{% filter heading(
+    heading_level + 1,
+    id='func-' ~ func.name,
+    class="doc doc-heading",
+    toc_label=('<code class="doc-symbol doc-symbol-toc doc-symbol-go-function"></code>&nbsp;'|safe if config.show_symbol_type_toc else '') + func.name,
+) %}
+    {% if config.show_symbol_type_heading %}<code class="doc-symbol doc-symbol-heading doc-symbol-go-function"></code>{% endif %}
+    <code>{{ func.name }}{{ func.type_params }}</code>
+{% endfilter %}
+<p><code>func {{ func.name }}{{ func.type_params }}({% for param in func.params %}{{ param.name }} {{ param.tp }}{{ ", " if not loop.last else "" }}{% endfor %}){% if func.results %} ({% for ret in func.results %}{{ ret.name ~ ' ' if ret.name else '' }}{{ ret.tp }}{{ ", " if not loop.last else "" }}{% endfor %}){% endif %}</code></p>
+{{ func.doc.desc | default("No description provided.") | convert_markdown(func.name) }}

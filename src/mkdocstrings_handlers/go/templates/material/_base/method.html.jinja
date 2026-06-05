@@ -1,0 +1,11 @@
+{% filter heading(
+    heading_level + 1,
+    id='method-' ~ method.name,
+    class="doc doc-heading",
+    toc_label=('<code class="doc-symbol doc-symbol-toc doc-symbol-go-method"></code>&nbsp;'|safe if config.show_symbol_type_toc else '') + method.name,
+) %}
+    {% if config.show_symbol_type_heading %}<code class="doc-symbol doc-symbol-heading doc-symbol-go-method"></code>{% endif %}
+    <code>{{ method.name }}{{ method.type_params }}</code>
+{% endfilter %}
+<p><code>func ({{ method.receiver }}) {{ method.name }}{{ method.type_params }}({% for param in method.params %}{{ param.name }} {{ param.tp }}{{ ", " if not loop.last else "" }}{% endfor %}){% if method.results %} ({% for ret in method.results %}{{ ret.name ~ ' ' if ret.name else '' }}{{ ret.tp }}{{ ", " if not loop.last else "" }}{% endfor %}){% endif %}</code></p>
+{{ method.doc.desc | default("No description provided.") | convert_markdown(method.name) }}

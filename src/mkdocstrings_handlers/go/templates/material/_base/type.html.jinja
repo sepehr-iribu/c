@@ -1,0 +1,11 @@
+{% filter heading(
+    heading_level + 1,
+    id='type-' ~ type_alias.name,
+    class="doc doc-heading",
+    toc_label=('<code class="doc-symbol doc-symbol-toc doc-symbol-go-type"></code>&nbsp;'|safe if config.show_symbol_type_toc else '') + type_alias.name,
+) %}
+    {% if config.show_symbol_type_heading %}<code class="doc-symbol doc-symbol-heading doc-symbol-go-type"></code>{% endif %}
+    <code>{{ type_alias.name }}{{ type_alias.type_params }}</code>
+{% endfilter %}
+<p><code>type {{ type_alias.name }}{{ type_alias.type_params }} {{ type_alias.target }}</code></p>
+{{ type_alias.doc.desc | default("No description provided.") | convert_markdown(type_alias.name) }}

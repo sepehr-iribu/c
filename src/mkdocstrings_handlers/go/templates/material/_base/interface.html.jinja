@@ -1,0 +1,21 @@
+{% filter heading(
+    heading_level + 1,
+    id='interface-' ~ interface.name,
+    class="doc doc-heading",
+    toc_label=('<code class="doc-symbol doc-symbol-toc doc-symbol-go-interface"></code>&nbsp;'|safe if config.show_symbol_type_toc else '') + interface.name,
+) %}
+    {% if config.show_symbol_type_heading %}<code class="doc-symbol doc-symbol-heading doc-symbol-go-interface"></code>{% endif %}
+    <code>{{ interface.name }}{{ interface.type_params }}</code>
+{% endfilter %}
+<p><code>type {{ interface.name }}{{ interface.type_params }} interface</code></p>
+{{ interface.doc.desc | default("No description provided.") | convert_markdown(interface.name) }}
+{% if interface.methods %}
+<ul>
+    {% for method in interface.methods %}
+    <li><code>{{ method }}</code></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% if interface.embeds %}
+<p>Embeds: {% for embed in interface.embeds %}<code>{{ embed }}</code>{{ ", " if not loop.last else "" }}{% endfor %}</p>
+{% endif %}

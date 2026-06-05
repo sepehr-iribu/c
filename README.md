@@ -5,7 +5,7 @@
 [![pypi version](https://img.shields.io/pypi/v/mkdocstrings-c.svg)](https://pypi.org/project/mkdocstrings-c/)
 [![gitter](https://badges.gitter.im/join%20chat.svg)](https://app.gitter.im/#/room/#c:gitter.im)
 
-A C handler for mkdocstrings.
+A C handler for mkdocstrings, now with an additional Go handler package in this repository.
 
 WARNING: **Still in prototyping phase!**
 Feedback is welcome.

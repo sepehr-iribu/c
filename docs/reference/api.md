@@ -5,3 +5,5 @@ hide:
 ---
 
 # ::: mkdocstrings_handlers.c
+
+# ::: mkdocstrings_handlers.go

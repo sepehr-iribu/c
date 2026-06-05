@@ -1,0 +1,51 @@
+{% filter heading(
+    heading_level,
+    id='package-' ~ header.package,
+    class="doc doc-heading",
+    toc_label=('<code class="doc-symbol doc-symbol-toc doc-symbol-go-package"></code>&nbsp;'|safe if config.show_symbol_type_toc else '') + (config.toc_label or header.package),
+) %}
+    {% if config.show_symbol_type_heading %}<code class="doc-symbol doc-symbol-heading doc-symbol-go-package"></code>{% endif %}
+    <code>{{ config.heading or header.package }}</code>
+{% endfilter %}
+
+{% if header.structs %}
+    {% for struct in header.structs %}
+        {% include "struct.html.jinja" with context %}
+    {% endfor %}
+{% endif %}
+
+{% if header.interfaces %}
+    {% for interface in header.interfaces %}
+        {% include "interface.html.jinja" with context %}
+    {% endfor %}
+{% endif %}
+
+{% if header.types %}
+    {% for type_alias in header.types %}
+        {% include "type.html.jinja" with context %}
+    {% endfor %}
+{% endif %}
+
+{% if header.consts %}
+    {% for value in header.consts %}
+        {% include "const.html.jinja" with context %}
+    {% endfor %}
+{% endif %}
+
+{% if header.vars %}
+    {% for value in header.vars %}
+        {% include "var.html.jinja" with context %}
+    {% endfor %}
+{% endif %}
+
+{% if header.functions %}
+    {% for func in header.functions %}
+        {% include "function.html.jinja" with context %}
+    {% endfor %}
+{% endif %}
+
+{% if header.methods %}
+    {% for method in header.methods %}
+        {% include "method.html.jinja" with context %}
+    {% endfor %}
+{% endif %}

@@ -1,0 +1,19 @@
+{% filter heading(
+    heading_level + 1,
+    id='struct-' ~ struct.name,
+    class="doc doc-heading",
+    toc_label=('<code class="doc-symbol doc-symbol-toc doc-symbol-go-struct"></code>&nbsp;'|safe if config.show_symbol_type_toc else '') + struct.name,
+) %}
+    {% if config.show_symbol_type_heading %}<code class="doc-symbol doc-symbol-heading doc-symbol-go-struct"></code>{% endif %}
+    <code>{{ struct.name }}{{ struct.type_params }}</code>
+{% endfilter %}
+<p><code>type {{ struct.name }}{{ struct.type_params }} struct</code></p>
+{{ struct.doc.desc | default("No description provided.") | convert_markdown(struct.name) }}
+{% if struct.fields %}
+<table>
+    <tr><th>Field</th><th>Type</th></tr>
+    {% for field in struct.fields %}
+    <tr><td>{{ field.name }}</td><td><code>{{ field.tp }}</code></td></tr>
+    {% endfor %}
+</table>
+{% endif %}
